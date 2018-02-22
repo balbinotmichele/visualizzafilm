@@ -5,13 +5,15 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
+  <h2 margin-top>Benvenuto nel Database di Film!</h2>
+  <p *ngIf="!scelta">
+    Visualizza film o attori
   </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+  <ion-list inset *ngIf="!scelta">
+    <button ion-item *ngFor="let item of tabelle" (click)="itemSelected(item)">
+      {{ item }}
+    </button>
+  </ion-list>
+  <component-filmlist *ngIf="scelta=='Film'" [lista]="listaFilm" ></component-filmlist>
+  <component-attorilist *ngIf="scelta=='Attori'" [lista]="listaAttori"></component-attorilist>
 </ion-content>
