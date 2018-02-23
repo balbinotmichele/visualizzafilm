@@ -12,7 +12,7 @@ export class AttoriList {
   @Input() lista : Attore[];
 
   scelta : Attore;
-  constructor(public navCtrl: NavController, private sd:ServiceDbfilmService) {
+  constructor(public navCtrl: NavController) {
 
   }
 
