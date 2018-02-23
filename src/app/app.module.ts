@@ -14,6 +14,7 @@ import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AttoriList } from '../components/attoriList/attoriList.component';
+import { AttoreDetail } from "../components/attoreDetail/attoreDetail.component";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AttoriList } from '../components/attoriList/attoriList.component';
     HomePage,
     TabsPage,
     FilmList,
-    AttoriList
+    AttoriList,
+    AttoreDetail
   ],
   imports: [
     BrowserModule,
@@ -36,7 +38,8 @@ import { AttoriList } from '../components/attoriList/attoriList.component';
     HomePage,
     TabsPage,
     FilmList,
-    AttoriList
+    AttoriList,
+    AttoreDetail
   ],
   providers: [
     StatusBar,
