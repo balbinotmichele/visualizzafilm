@@ -1,20 +1,26 @@
-<ion-header>
+ <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>DbFilm</ion-title>
   </ion-navbar>
 </ion-header>
+<ion-content>
+  <div padding margin-top>
+    <ion-segment [(ngModel)]="scelta">
+      <ion-segment-button value="Film">
+        Film
+      </ion-segment-button>
+      <ion-segment-button value="Attori">
+        Attori
+      </ion-segment-button>
+      <ion-segment-button value="Sale">
+        Sale
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
-<ion-content padding>
-  <h2 margin-top>Benvenuto nel Database di Film!</h2>
-  <p *ngIf="!scelta">
-    Visualizza film o attori
-  </p>
-  <button ion-button margin-top *ngIf="scelta" (click)="scelta = null">Indietro</button> 
-  <ion-list inset *ngIf="!scelta">
-    <button ion-item *ngFor="let item of tabelle" (click)="itemSelected(item)">
-      {{ item }}
-    </button>
-  </ion-list> 
-  <component-filmlist *ngIf="scelta=='Film'" [lista]="listaFilm" ></component-filmlist>
-  <component-attorilist *ngIf="scelta=='Attori'" [lista]="listaAttori"></component-attorilist>
+  <div [ngSwitch]="scelta">
+    <component-filmlist *ngSwitchCase="'Film'"></component-filmlist>
+    <component-attorilist *ngSwitchCase="'Attori'"></component-attorilist>
+    <component-salelist *ngSwitchCase="'Sale'"></component-salelist>
+  </div>
 </ion-content>

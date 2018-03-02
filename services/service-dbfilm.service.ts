@@ -99,6 +99,46 @@ delFilm(CodFilm:number): Observable<any> {
 }
 // #endregion
 
+// #region Sala
+getSale():Observable<Sala[]>{
+  return this.http
+    .get("http://localhost:3000/listSale")
+    .map(res => res as Sala[]);
+}
+
+modInsSala (sala:Sala): Observable<any> {
+  console.log("mod/ins codSala :"+sala.Nome);
+  let headers = new HttpHeaders();
+  headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+  const params = new HttpParams()
+    .set('CodSala', sala.CodSala.toString())
+    .set('Nome', sala.Nome)
+    .set('Posti', sala.Posti.toString())
+    .set('Citta', sala.Citta);
+  const options = {
+      headers,
+      params
+    };
+  return this.http.put("http://localhost:3000/ModSala", null, options)
+    .map((response: Response) => response)
+    .catch(this.handleError);
+}
+
+delSala(CodSala:number): Observable<any> {
+  console.log("del codSala :"+CodSala);
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+    const params = new HttpParams()
+      .set('CodSala', CodSala.toString())      ;
+    const options = {
+        headers,
+        params
+      };
+  return this.http.delete("http://localhost:3000/delSala" ,  options )
+    .map((response: Response) =>response )
+    .catch(this.handleError);
+}
+// #endregion
   private extractData(res: Response) {
     let body = res.json();
     return body;

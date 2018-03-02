@@ -9,11 +9,21 @@ import { Film } from '../../types/Film';
 })
 
 export class FilmList {
-  @Input() lista : Film[];
+  lista : Film[];
 
   scelta : Film;
-  constructor(public navCtrl: NavController, private sd:ServiceDbfilmService) {
 
+  errmsg: string;
+
+  constructor(public navCtrl: NavController, private sd:ServiceDbfilmService) {}
+
+  getFilm(){
+    this.sd.getFilm()
+    .subscribe(res => {
+       this.lista  = res
+    },
+    errorCode => this.errmsg = errorCode
+    );
   }
 
   itemSelected(item:Film) {

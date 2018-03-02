@@ -1,5 +1,6 @@
+import { AttoreDetail } from './../attoreDetail/attoreDetail.component';
 import { Attore } from './../../types/Attore';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import { ServiceDbfilmService } from '../../../services/service-dbfilm.service';
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -8,19 +9,43 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: 'attoriList.component.html'
 })
 
-export class AttoriList {
-  @Input() lista : Attore[];
+export class AttoriList implements OnInit{
+  lista : Attore[];
 
   scelta : Attore;
-  constructor(public navCtrl: NavController) {
 
+  errmsg : string;
+
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, private sd:ServiceDbfilmService) {}
+
+  openAttoreModal(attore: Attore) {
+    let modal = this.modalCtrl.create(AttoreDetail, attore);
+    modal.present();
   }
 
-  itemSelected(item:Attore) {
-    this.scelta = item;
+  deleteAttore(attore:Attore) {
+    this.sd.delAttore(attore.CodAttore)
+     .subscribe(res => {
+        console.log(res);
+        if (res.status==200)
+          {
+            this.getAttori() ;
+          }
+     },
+     errorCode => this.errmsg = errorCode
+    );
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getAttori();
+  }
 
+  getAttori(){
+    this.sd.getAttori()
+    .subscribe(res => {
+       this.lista  = res
+    },
+    errorCode => this.errmsg = errorCode
+    );
   }
 }

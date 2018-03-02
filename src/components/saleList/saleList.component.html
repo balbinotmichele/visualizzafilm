@@ -1,0 +1,7 @@
+<ion-list inset>
+  <ion-item *ngFor="let item of lista">
+    {{ item.Nome }}
+    <ion-icon name="eye" item-end (click)="openSalaModal({sala: item})"></ion-icon>
+    <ion-icon name="trash" item-end (click)="deleteSala(item)"></ion-icon>
+  </ion-item>
+</ion-list>

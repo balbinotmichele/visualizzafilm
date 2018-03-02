@@ -1,15 +1,15 @@
-import { Attore } from './../../types/Attore';
 import { NavController, Platform, NavParams, ViewController } from 'ionic-angular';
 import { ServiceDbfilmService } from '../../../services/service-dbfilm.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { Sala } from '../../types/Sala';
 
 @Component({
-  selector: 'component-attoreDetail',
-  templateUrl: 'attoreDetail.component.html'
+  selector: 'component-salaDetail',
+  templateUrl: 'salaDetail.component.html'
 })
 
-export class AttoreDetail {
-  attore : Attore = this.params.get('attore');
+export class SalaDetail {
+  sala : Sala = this.params.get('sala');
 
   constructor(public navCtrl: NavController,
     public platform: Platform,

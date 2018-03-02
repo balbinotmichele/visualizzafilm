@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AttoriList } from '../components/attoriList/attoriList.component';
 import { AttoreDetail } from "../components/attoreDetail/attoreDetail.component";
+import { SaleList } from '../components/saleList/saleList.component';
+import { SalaDetail } from '../components/salaDetail/salaDetail.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { AttoreDetail } from "../components/attoreDetail/attoreDetail.component"
     TabsPage,
     FilmList,
     AttoriList,
-    AttoreDetail
+    SaleList,
+    AttoreDetail,
+    SalaDetail
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,9 @@ import { AttoreDetail } from "../components/attoreDetail/attoreDetail.component"
     TabsPage,
     FilmList,
     AttoriList,
-    AttoreDetail
+    SaleList,
+    AttoreDetail,
+    SalaDetail
   ],
   providers: [
     StatusBar,
