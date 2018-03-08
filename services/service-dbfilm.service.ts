@@ -16,9 +16,9 @@ import 'rxjs/add/operator/catch';
 export class ServiceDbfilmService {
   constructor(private http: HttpClient) { }
 // #region Attore
-  getAttori():Observable<Attore[]>{
+  getAttori(limit:number = 0, offset:number = 0):Observable<Attore[]>{
     return this.http
-      .get("http://localhost:3000/listAttori")
+      .get("http://localhost:3000/listAttori", {params:{lim: limit.toString(), off: offset.toString()}})
       .map(res => res as Attore[]  );
   }
 

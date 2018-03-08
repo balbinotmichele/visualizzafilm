@@ -1,4 +1,4 @@
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import { ServiceDbfilmService } from '../../../services/service-dbfilm.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Film } from '../../types/Film';
@@ -15,7 +15,25 @@ export class FilmList {
 
   errmsg: string;
 
-  constructor(public navCtrl: NavController, private sd:ServiceDbfilmService) {}
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, private sd:ServiceDbfilmService) {}
+
+  /*openAttoreModal(film: Attore) {
+    let modal = this.modalCtrl.create(FilmDetail, film);
+    modal.present();
+  }
+
+  deleteAttore(attore:Attore) {
+    this.sd.delAttore(attore.CodAttore)
+     .subscribe(res => {
+        console.log(res);
+        if (res.status==200)
+          {
+            this.getAttori() ;
+          }
+     },
+     errorCode => this.errmsg = errorCode
+    );
+  }*/
 
   getFilm(){
     this.sd.getFilm()
@@ -31,6 +49,6 @@ export class FilmList {
   }
 
   ngOnInit() {
-
+    this.getFilm();
   }
 }

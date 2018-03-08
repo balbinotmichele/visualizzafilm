@@ -8,15 +8,32 @@ import { Sala } from '../../types/Sala';
   templateUrl: 'salaDetail.component.html'
 })
 
-export class SalaDetail {
+export class SalaDetail implements OnInit{
   sala : Sala = this.params.get('sala');
+  modifica : boolean;
+  errmsg: string;
 
   constructor(public navCtrl: NavController,
     public platform: Platform,
     public params: NavParams,
-    public viewCtrl: ViewController) {}
+    public viewCtrl: ViewController,
+    private sd:ServiceDbfilmService) {}
 
-  dismiss() {
-    this.viewCtrl.dismiss();
-  }
+    dismiss() {
+      this.viewCtrl.dismiss();
+      this.modifica = true;
+    }
+
+    salva() {
+      this.sd.modInsSala(this.sala)
+      .subscribe(res => {
+         this.sala  = res
+      },
+      errorCode => this.errmsg = errorCode
+      );
+    }
+
+    ngOnInit(): void {
+      this.modifica = true;
+    }
 }

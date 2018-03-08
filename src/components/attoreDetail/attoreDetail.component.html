@@ -14,21 +14,20 @@
 
 <ion-content>
   <ion-list>
-      <ion-item margin-top>
-        <h2 text-center>{{attore.Nome}}</h2>
-      </ion-item>
+    <ion-item margin-top>
+      <ion-label floating>Nome</ion-label>
+      <ion-input type="text" [(ngModel)]="attore.Nome" [disabled]="(this.modifica)"></ion-input>
+    </ion-item>
 
       <ion-item>
-        Anno Nascita
-        <ion-note item-end>
-          {{attore.AnnoNascita}}
-        </ion-note>
+        <ion-label floating>Anno nascita</ion-label>
+        <ion-input type="number" [(ngModel)]="attore.AnnoNascita" [disabled]="(this.modifica)"></ion-input>
       </ion-item>
       <ion-item>
-        Nazionalita
-        <ion-note item-end>
-          {{attore.Nazionalita}}
-        </ion-note>
+        <ion-label floating>Nazionalità</ion-label>
+        <ion-input type="text" [(ngModel)]="attore.Nazionalita" [disabled]="(this.modifica)"></ion-input>
       </ion-item>
+      <button margin ion-button float-right position='bottom' *ngIf="this.modifica" (click)='modifica = false'>Modifica</button>
+      <button margin ion-button float-right position='bottom' *ngIf="!this.modifica" (click)='salva(); modifica = true;'>Salva</button>
   </ion-list>
 </ion-content>

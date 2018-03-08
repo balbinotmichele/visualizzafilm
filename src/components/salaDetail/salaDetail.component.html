@@ -1,34 +1,33 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title>
-        Sala {{sala.CodSala}}
-      </ion-title>
-      <ion-buttons start>
-        <button ion-button (click)="dismiss()">
-          <span ion-text color="primary" showWhen="ios">Cancel</span>
-          <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Sala {{sala.CodSala}}
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-content>
-    <ion-list>
-        <ion-item margin-top>
-          <h2 text-center>{{sala.Nome}}</h2>
-        </ion-item>
+<ion-content>
+  <ion-list>
+    <ion-item margin-top>
+      <ion-label floating>Nome</ion-label>
+      <ion-input type="text" [(ngModel)]="sala.Nome" [disabled]="(this.modifica)"></ion-input>
+    </ion-item>
 
-        <ion-item>
-          Posti
-          <ion-note item-end>
-            {{sala.Posti}}
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          Citta
-          <ion-note item-end>
-            {{sala.Citta}}
-          </ion-note>
-        </ion-item>
-    </ion-list>
-  </ion-content>
+      <ion-item>
+        <ion-label floating>Posti</ion-label>
+        <ion-input type="number" [(ngModel)]="sala.Posti" [disabled]="(this.modifica)"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Città</ion-label>
+        <ion-input type="text" [(ngModel)]="sala.Citta" [disabled]="this.modifica"></ion-input>
+      </ion-item>
+      <button margin ion-button float-right position='bottom' *ngIf="this.modifica" (click)='modifica = false'>Modifica</button>
+      <button margin ion-button float-right position='bottom' *ngIf="!this.modifica" (click)='salva(); modifica = true;'>Salva</button>
+  </ion-list>
+</ion-content>
