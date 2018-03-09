@@ -2,6 +2,7 @@ import { NavController, ModalController } from 'ionic-angular';
 import { ServiceDbfilmService } from '../../../services/service-dbfilm.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Film } from '../../types/Film';
+import { FilmDetail } from "./../filmDetail/filmDetail.component";
 
 @Component({
   selector: 'component-filmlist',
@@ -11,29 +12,31 @@ import { Film } from '../../types/Film';
 export class FilmList {
   lista : Film[];
 
-  scelta : Film;
+  scelta : Film; 
+  nuovo : Film  = new Film(0, "", 0, "", "","");
 
   errmsg: string;
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, private sd:ServiceDbfilmService) {}
 
-  /*openAttoreModal(film: Attore) {
+  openFilmModal (film: Film) {
     let modal = this.modalCtrl.create(FilmDetail, film);
+    modal.onDidDismiss(() => {this.getFilm(); this.nuovo = new Film(0, "", 0, "", "","")});
     modal.present();
   }
 
-  deleteAttore(attore:Attore) {
-    this.sd.delAttore(attore.CodAttore)
+  deleteFilm(film:Film) {
+    this.sd.delFilm(film.CodFilm)
      .subscribe(res => {
         console.log(res);
         if (res.status==200)
           {
-            this.getAttori() ;
+            this.getFilm();
           }
      },
      errorCode => this.errmsg = errorCode
     );
-  }*/
+  }
 
   getFilm(){
     this.sd.getFilm()

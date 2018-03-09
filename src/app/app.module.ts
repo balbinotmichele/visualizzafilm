@@ -17,6 +17,7 @@ import { AttoriList } from '../components/attoriList/attoriList.component';
 import { AttoreDetail } from "../components/attoreDetail/attoreDetail.component";
 import { SaleList } from '../components/saleList/saleList.component';
 import { SalaDetail } from '../components/salaDetail/salaDetail.component';
+import { FilmDetail } from "../components/filmDetail/filmDetail.component";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SalaDetail } from '../components/salaDetail/salaDetail.component';
     AttoriList,
     SaleList,
     AttoreDetail,
-    SalaDetail
+    SalaDetail,
+    FilmDetail
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { SalaDetail } from '../components/salaDetail/salaDetail.component';
     AttoriList,
     SaleList,
     AttoreDetail,
-    SalaDetail
+    SalaDetail,
+    FilmDetail
   ],
   providers: [
     StatusBar,

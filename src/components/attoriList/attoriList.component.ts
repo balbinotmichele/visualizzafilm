@@ -13,13 +13,15 @@ export class AttoriList implements OnInit{
   lista : Attore[];
 
   scelta : Attore;
-
+  nuovo : Attore = new Attore(0, "", 0, "");
+  
   errmsg : string;
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, private sd:ServiceDbfilmService) {}
 
   openAttoreModal(attore: Attore) {
     let modal = this.modalCtrl.create(AttoreDetail, attore);
+    modal.onDidDismiss(() => {this.getAttori(); this.nuovo = new Attore(0, "", 0, "")});    
     modal.present();
   }
 
@@ -35,11 +37,7 @@ export class AttoriList implements OnInit{
      errorCode => this.errmsg = errorCode
     );
   }
-
-  ngOnInit(): void {
-    this.getAttori();
-  }
-
+  
   getAttori(){
     this.sd.getAttori()
     .subscribe(res => {
@@ -47,5 +45,9 @@ export class AttoriList implements OnInit{
     },
     errorCode => this.errmsg = errorCode
     );
+  }
+
+  ngOnInit(): void {
+    this.getAttori();
   }
 }

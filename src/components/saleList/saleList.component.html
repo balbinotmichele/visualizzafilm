@@ -1,4 +1,5 @@
 <ion-list inset>
+  <button ion-button color="secondary" float-right (click)="openSalaModal({sala: nuovo})">Aggiungi</button>        
   <ion-item *ngFor="let item of lista">
     {{ item.Nome }}
     <ion-icon name="eye" margin-right item-end (click)="openSalaModal({sala: item})"></ion-icon>

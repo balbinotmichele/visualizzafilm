@@ -1,14 +1,14 @@
 export class Sala{
+  CodSala : number
+  Posti : number
+  Nome: string
+  Citta: string
   constructor(
-      private codSala : number,
-      private posti : number,
-      private nome: string,
-      private citta: string,
+     codSala:number, posti: number, nome: string, citta: string
   ){
+    this.CodSala = codSala;
+    this.Posti = posti;
+    this.Nome = nome;
+    this.Citta = citta;
   }
-
-  get CodSala() {return this.codSala;}
-  get Nome() {return this.nome;}
-  get Posti() {return this.posti;}
-  get Citta() {return this.citta;}
 }

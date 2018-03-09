@@ -13,6 +13,7 @@ export class SaleList {
   lista : Sala[];
 
   scelta : Sala;
+  nuovo : Sala = new Sala(0, 0, "", "");
 
   errmsg : string;
 
@@ -28,11 +29,12 @@ export class SaleList {
   }
 
   ngOnInit() {
-    this.getSale();
+    this.getSale(); 
   }
 
   openSalaModal(sala: Sala) {
     let modal = this.modalCtrl.create(SalaDetail, sala);
+    modal.onDidDismiss(() => {this.getSale(); this.nuovo = new Sala(0, 0, "", "")});    
     modal.present();
   }
 

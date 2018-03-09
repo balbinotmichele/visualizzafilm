@@ -1,14 +1,18 @@
 export class Attore{
-    constructor(
-        private codAttore : number,
-        private nome : string,
-        private annoNascita: number,
-        private nazionalita: string,
-    ){
-    }
+    CodAttore : number
+    Nome : string
+    AnnoNascita: number
+    Nazionalita: string
 
-    get CodAttore() {return this.codAttore;}
-    get Nome() {return this.nome;}
-    get AnnoNascita() {return this.annoNascita;}
-    get Nazionalita() {return this.nazionalita;}
+    constructor(
+        codAttore:number,
+        nome:string,
+        annoNascita: number,
+        nazionalita:string
+    ){
+        this.CodAttore = codAttore;
+        this.Nome = nome;
+        this.AnnoNascita = annoNascita;
+        this.Nazionalita = nazionalita;
+    }
 }

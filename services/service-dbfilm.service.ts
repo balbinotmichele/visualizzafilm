@@ -1,5 +1,3 @@
-import { Proiezione } from '../src/types/Proiezione';
-import { Recita } from '../src/types/Recita';
 import { Film } from '../src/types/Film';
 import { Attore } from '../src/types/Attore';
 import { Sala } from '../src/types/Sala';

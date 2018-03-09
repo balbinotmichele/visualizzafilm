@@ -27,13 +27,14 @@ export class SalaDetail implements OnInit{
     salva() {
       this.sd.modInsSala(this.sala)
       .subscribe(res => {
-         this.sala  = res
+         this.sala  = res.data
       },
       errorCode => this.errmsg = errorCode
       );
+      this.dismiss();
     }
 
     ngOnInit(): void {
-      this.modifica = true;
+      this.modifica = this.sala.Nome!="";
     }
 }

@@ -1,15 +1,15 @@
-import { Attore } from './../../types/Attore';
 import { NavController, Platform, NavParams, ViewController } from 'ionic-angular';
 import { ServiceDbfilmService } from '../../../services/service-dbfilm.service';
 import { Component, OnInit } from '@angular/core';
+import { Film } from "../../types/Film";
 
 @Component({
-  selector: 'component-attoreDetail',
-  templateUrl: 'attoreDetail.component.html'
+  selector: 'component-filmDetail',
+  templateUrl: 'filmDetail.component.html'
 })
 
-export class AttoreDetail implements OnInit {
-  attore : Attore = this.params.get('attore');
+export class FilmDetail implements OnInit {
+  film : Film = this.params.get('film');
   modifica : boolean;
   errmsg: string;
 
@@ -25,9 +25,9 @@ export class AttoreDetail implements OnInit {
   }
 
   salva() {
-    this.sd.modInsAttore(this.attore)
+    this.sd.modInsFilm(this.film)
     .subscribe(res => {
-       this.attore  = res.data
+       this.film  = res.data;
     },
     errorCode => this.errmsg = errorCode
     );
@@ -35,6 +35,6 @@ export class AttoreDetail implements OnInit {
   }
 
   ngOnInit(): void {
-    this.modifica = this.attore.Nome!="";
+    this.modifica = this.film.Titolo!="";
   }
 }

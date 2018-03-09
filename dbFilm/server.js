@@ -239,7 +239,7 @@ app.put('/ModFilm', function(req, res){
 	connection = mysql.createConnection(sConnection);
 	connection.connect(function(err){
     if(!err) {
-		var sQuery="UPDATE Film SET Titolo = ?, AnnoProduzione = ?, Nazionalita = ?, Regista = ?, Genere = ? WHERE CodAttore = ?;";
+		var sQuery="UPDATE Film SET Titolo = ?, AnnoProduzione = ?, Nazionalita = ?, Regista = ?, Genere = ? WHERE CodFilm = ?;";
 		var data = [];
 		console.log(req.query.CodFilm);
 		console.log(req.query.Titolo);
@@ -252,6 +252,7 @@ app.put('/ModFilm', function(req, res){
 		data.push(req.query.Nazionalita);
 		data.push(req.query.Regista);
 		data.push(req.query.Genere);
+		data.push(req.query.CodFilm);
 		connection.query(sQuery, data, function(err, rows, fields) {
 			if (err) 
 			{	console.log(err);
@@ -304,6 +305,7 @@ app.put('/ModSala', function(req, res){
 		data.push(req.query.Posti);
 		data.push(req.query.Nome);
 		data.push(req.query.Citta);
+		data.push(req.query.CodSala);
 		connection.query(sQuery, data, function(err, rows, fields) {
 			if (err) 
 			{	console.log(err);
