@@ -14,9 +14,9 @@ import 'rxjs/add/operator/catch';
 export class ServiceDbfilmService {
   constructor(private http: HttpClient) { }
 // #region Attore
-  getAttori(limit:number = 0, offset:number = 0):Observable<Attore[]>{
+  getAttori():Observable<Attore[]>{
     return this.http
-      .get("http://localhost:3000/listAttori", {params:{lim: limit.toString(), off: offset.toString()}})
+      .get("http://localhost:3000/listAttori")
       .map(res => res as Attore[]  );
   }
 
@@ -55,11 +55,41 @@ export class ServiceDbfilmService {
   // #endregion
 
 // #region Film
-getFilm():Observable<Film[]>{
+getFilm(limit : number, num: number):Observable<Film[]>{
+  // let headers = new HttpHeaders();
+  // headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+  // const params = new HttpParams()
+  //   .set('limit',   limit.toString())
+  //   .set('offset',   (limit - num).toString());
+  // const options = {
+  //     headers,
+  //     params
+  //   };
+  // return this.http
+  //   .get("http://localhost:3000/listFilm", options)
+  //   .map(res => res as Film[])
+  //   .catch(this.handleError); 
   return this.http
     .get("http://localhost:3000/listFilm")
     .map(res => res as Film[]  );
 }
+
+getData(tableName,pageIndex,pageSize):Observable<any>{
+  let headers = new HttpHeaders();
+  headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+  const params = new HttpParams()
+    .set('tableName', tableName)
+    .set('pageIndex', pageIndex)
+    .set('pageSize', pageSize);
+    
+  const options = {
+      headers,
+      params
+    };
+  return this.http
+    .get("http://localhost:3000/getData",options)
+    .map(res => res);
+}  
 
 modInsFilm(film:Film): Observable<any> {
   console.log("mod/ins codFilm :"+ film.CodFilm);
@@ -76,7 +106,8 @@ modInsFilm(film:Film): Observable<any> {
       headers,
       params
     };
-  return this.http.put("http://localhost:3000/ModFilm", null, options)
+  return this.http
+    .put("http://localhost:3000/ModFilm", null, options)
     .map((response: Response) => response)
     .catch(this.handleError);
 }
@@ -91,7 +122,8 @@ delFilm(CodFilm:number): Observable<any> {
         headers,
         params
       };
-  return this.http.delete("http://localhost:3000/delFilm" ,  options )
+  return this.http
+    .delete("http://localhost:3000/delFilm" ,  options )
     .map((response: Response) =>response )
     .catch(this.handleError);
 }

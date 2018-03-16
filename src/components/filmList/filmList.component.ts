@@ -10,7 +10,11 @@ import { FilmDetail } from "./../filmDetail/filmDetail.component";
 })
 
 export class FilmList {
+  data : Film[];
   lista : Film[];
+
+  lim: number = 5;
+  num : number = 5;
 
   scelta : Film; 
   nuovo : Film  = new Film(0, "", 0, "", "","");
@@ -39,7 +43,7 @@ export class FilmList {
   }
 
   getFilm(){
-    this.sd.getFilm()
+    this.sd.getFilm(this.lim, this.num)
     .subscribe(res => {
        this.lista  = res
     },
@@ -54,4 +58,22 @@ export class FilmList {
   ngOnInit() {
     this.getFilm();
   }
+
+  doInfinite(infiniteScroll) {
+    setTimeout(() => {
+      this.sd.getFilm(this.lim, this.num)
+         .subscribe(
+           res => {
+             this.data = res;
+             for(let i=0; i<this.data.length; i++) {
+               this.lista.push(this.data[i]);
+             }
+           },
+           error =>  this.errmsg = <any>error);
+      this.lim += this.num;
+      console.log('Async operation has ended');
+      infiniteScroll.complete();
+    }, 1000);
+  }
 }
+

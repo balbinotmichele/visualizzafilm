@@ -43,22 +43,6 @@ app.get("/listAttori",function(req,res){
 	})
 });
 
-app.get("/listFilm", function(req, res) {
-	connection= mysql.createConnection(sConnection)	;
-	connection.connect(function(err){
-		if (!err){
-			var sQuery="SELECT * FROM FILM;";	
-			connection.query(sQuery,function(err,rows,fileds){
-		      if (err) 
-				res.sendStatus(500);
-				else
-				res.setHeader('Access-Control-Allow-Origin','*');
-				res.json(rows);
-			})
-		}
-	})
-});
-
 app.get("/listSale", function(req, res) {
 	connection= mysql.createConnection(sConnection)	;
 	connection.connect(function(err){
@@ -74,6 +58,64 @@ app.get("/listSale", function(req, res) {
 		}
 	})
 });
+
+app.get("/listFilm", function(req, res) {
+	/*connection= mysql.createConnection(sConnection)	;
+	connection.connect(function(err){
+		if (!err){
+			var sQuery="SELECT * FROM FILM LIMIT ? OFFSET ?;";	
+			var data=[];
+			console.log(req.query.limit);
+			console.log(req.query.offset);
+			  data.push(parseInt(req.query.limit));
+			  data.push(parseInt(req.query.offset));
+			connection.query(sQuery, data, function(err,rows,fileds){
+		      if (err) 
+				res.sendStatus(500); 
+				else
+				res.setHeader('Access-Control-Allow-Origin','*');
+				res.json(rows);
+			})
+
+	  };
+	});*/
+	connection.connect(function(err){
+		if (!err){
+			var sQuery="SELECT * FROM FILM;";	
+			connection.query(sQuery,function(err,rows,fileds){
+		      if (err) 
+				res.sendStatus(500);
+				else
+				res.setHeader('Access-Control-Allow-Origin','*');
+				res.json(rows);
+			})
+		}
+	})
+});
+
+app.get("/getData",function(req,res){
+	connection= mysql.createConnection(sConnection)	;
+	connection.connect(function(err){
+		if (!err){
+			var sQuery="call dbfilm.getData(?,?,?, @nRows, @nPages); select @nRows as nRows, @nPages as nPages";	
+			var data=[];
+			data.push(req.query.tableName);
+			data.push(req.query.pageIndex);
+			data.push(req.query.pageSize);
+			
+			console.log(data);
+	        
+			connection.query(sQuery,data,function(err,rows,fileds){
+		      if (err) 
+				res.sendStatus(500); //Internal Server Error
+				else
+				//res.setHeader('Access-Control-Allow-Origin','*');
+				res.json(rows); //resituisce tutti i records in formato json
+				console.log(rows);
+			})
+		}
+	})
+})
   
 app.delete('/delAttore', function(req, res) {
 	console.log("delAttore");
