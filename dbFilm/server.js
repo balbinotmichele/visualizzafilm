@@ -30,9 +30,9 @@ app.get("/listAttori",function(req,res){
 	connection= mysql.createConnection(sConnection)	;
 	connection.connect(function(err){
 		if (!err){
-			var sQuery="select * from attori;";	
+			var sQuery="select * from attori;";
 			connection.query(sQuery,function(err,rows,fileds){
-		      if (err) 
+		      if (err)
 				res.sendStatus(500); //Internal Server Error
 				else
 				res.setHeader('Access-Control-Allow-Origin','*');
@@ -47,9 +47,9 @@ app.get("/listSale", function(req, res) {
 	connection= mysql.createConnection(sConnection)	;
 	connection.connect(function(err){
 		if (!err){
-			var sQuery="SELECT * FROM SALE;";	
+			var sQuery="SELECT * FROM SALE;";
 			connection.query(sQuery,function(err,rows,fileds){
-		      if (err) 
+		      if (err)
 				res.sendStatus(500);
 				else
 				res.setHeader('Access-Control-Allow-Origin','*');
@@ -60,30 +60,12 @@ app.get("/listSale", function(req, res) {
 });
 
 app.get("/listFilm", function(req, res) {
-	/*connection= mysql.createConnection(sConnection)	;
+	connection= mysql.createConnection(sConnection)	;
 	connection.connect(function(err){
 		if (!err){
-			var sQuery="SELECT * FROM FILM LIMIT ? OFFSET ?;";	
-			var data=[];
-			console.log(req.query.limit);
-			console.log(req.query.offset);
-			  data.push(parseInt(req.query.limit));
-			  data.push(parseInt(req.query.offset));
-			connection.query(sQuery, data, function(err,rows,fileds){
-		      if (err) 
-				res.sendStatus(500); 
-				else
-				res.setHeader('Access-Control-Allow-Origin','*');
-				res.json(rows);
-			})
-
-	  };
-	});*/
-	connection.connect(function(err){
-		if (!err){
-			var sQuery="SELECT * FROM FILM;";	
+			var sQuery="SELECT * FROM FILM;";
 			connection.query(sQuery,function(err,rows,fileds){
-		      if (err) 
+		      if (err)
 				res.sendStatus(500);
 				else
 				res.setHeader('Access-Control-Allow-Origin','*');
@@ -97,16 +79,16 @@ app.get("/getData",function(req,res){
 	connection= mysql.createConnection(sConnection)	;
 	connection.connect(function(err){
 		if (!err){
-			var sQuery="call dbfilm.getData(?,?,?, @nRows, @nPages); select @nRows as nRows, @nPages as nPages";	
+			var sQuery="call dbfilm.getData(?,?,?, @nRows, @nPages); select @nRows as nRows, @nPages as nPages";
 			var data=[];
 			data.push(req.query.tableName);
 			data.push(req.query.pageIndex);
 			data.push(req.query.pageSize);
-			
+
 			console.log(data);
-	        
+
 			connection.query(sQuery,data,function(err,rows,fileds){
-		      if (err) 
+		      if (err)
 				res.sendStatus(500); //Internal Server Error
 				else
 				//res.setHeader('Access-Control-Allow-Origin','*');
@@ -115,8 +97,30 @@ app.get("/getData",function(req,res){
 			})
 		}
 	})
+});
+
+app.get('/GetRecita', function(req, res){
+	connection= mysql.createConnection(sConnection)	;
+	connection.connect(function(err){
+		if (!err){
+      var sQuery="SELECT Titolo FROM Recita, Film WHERE Recita.CodFilm = Film.CodFilm AND Recita.CodAttore = ?;";
+      var data=[];
+      data.push(req.query.CodAttore);
+	    console.log(req.query.CodAttore);
+      console.log(data[0]);
+			connection.query(sQuery,data,function(err,rows,fileds){
+        if (err)
+      res.sendStatus(500); //Internal Server Error
+      else
+      //res.setHeader('Access-Control-Allow-Origin','*');
+      res.json(rows); //resituisce tutti i records in formato json
+      console.log(rows);
+    })
+  }
 })
-  
+});
+
+
 app.delete('/delAttore', function(req, res) {
 	console.log("delAttore");
 	//res.setHeader('Access-Control-Allow-Origin','*');
@@ -132,22 +136,22 @@ app.delete('/delAttore', function(req, res) {
       connection.query(sQuery, data, function(err, rows, fields) {
 				console.log("err");
 				console.log(err);
-				
-        if (err) 
+
+        if (err)
           res.sendStatus(500); //Internal Server Error
 				else if (rows.affectedRows==0){
 					console.log("affectedRows");
 
-					res.sendStatus(401); //non ha trovato il cliente 
+					res.sendStatus(401); //non ha trovato il cliente
 				}
         else   {
 					console.log("Cancellato");
 					res.status(200).send({status: 200, Message: "Del OK" });
 					//res.sendStatus(200); // Attore cancellato con successo!
 				}
-      }); 
+      });
     } else {
-      console.log("Error connecting database ... ");    
+      console.log("Error connecting database ... ");
       res.sendStatus(500); //Internal Server Error
     }
   });
@@ -166,8 +170,8 @@ app.delete('/delFilm', function(req, res) {
       connection.query(sQuery, data, function(err, rows, fields) {
 				console.log("err");
 				console.log(err);
-				
-        if (err) 
+
+        if (err)
           res.sendStatus(500);
 				else if (rows.affectedRows==0){
 					console.log("affectedRows");
@@ -178,9 +182,9 @@ app.delete('/delFilm', function(req, res) {
 					console.log("Cancellato");
 					res.status(200).send({status: 200, Message: "Del OK" });
 				}
-      }); 
+      });
     } else {
-      console.log("Error connecting database ... ");    
+      console.log("Error connecting database ... ");
       res.sendStatus(500);
     }
   });
@@ -199,8 +203,8 @@ app.delete('/delSala', function(req, res) {
       connection.query(sQuery, data, function(err, rows, fields) {
 				console.log("err");
 				console.log(err);
-				
-        if (err) 
+
+        if (err)
           res.sendStatus(500);
 				else if (rows.affectedRows==0){
 					console.log("affectedRows");
@@ -211,9 +215,9 @@ app.delete('/delSala', function(req, res) {
 					console.log("Cancellato");
 					res.status(200).send({status: 200, Message: "Del OK" });
 				}
-      }); 
+      });
     } else {
-      console.log("Error connecting database ... ");    
+      console.log("Error connecting database ... ");
       res.sendStatus(500);
     }
   });
@@ -236,7 +240,7 @@ app.put('/ModAttore', function(req, res){
 		data.push(req.query.Nazionalita);
 		data.push(req.query.CodAttore);
 		connection.query(sQuery, data, function(err, rows, fields) {
-			if (err) 
+			if (err)
 			{	console.log(err);
 				res.sendStatus(500); //Internal Server Error
 			}
@@ -244,33 +248,33 @@ app.put('/ModAttore', function(req, res){
 			{
 				var sQuery2="INSERT INTO Attori(Nome, AnnoNascita, Nazionalita) VALUES(?,?,?)";
 				connection.query(sQuery2, data, function(err, rows, fields) {
-					if (err) 
+					if (err)
 					{
 						console.log(err);
 						res.sendStatus(500); //Internal Server Error
-					}						
-					else   
+					}
+					else
 					//res.status(200).send({ status:200, Message: "Ins OK" });
-					res.status(200).send({ 
-						status:  200, 
+					res.status(200).send({
+						status:  200,
 						Message: "Ins OK",
-						data: 	 req.query  
+						data: 	 req.query
 					});
 					//	res.sendStatus(200)
 				});
 			}
-			else   
+			else
 			{
 				//res.sendStatus(200)
-				res.status(200).send({ 
-						status:  200, 
+				res.status(200).send({
+						status:  200,
 						Message: "Mod OK",
-						data:    req.query   
+						data:    req.query
 					});
 			}
-		  }); 
+		  });
 	} else {
-      console.log("Error connecting database ... ");    
+      console.log("Error connecting database ... ");
       res.sendStatus(500); //Internal Server Error
     }
   });
@@ -296,38 +300,38 @@ app.put('/ModFilm', function(req, res){
 		data.push(req.query.Genere);
 		data.push(req.query.CodFilm);
 		connection.query(sQuery, data, function(err, rows, fields) {
-			if (err) 
+			if (err)
 			{	console.log(err);
-				res.sendStatus(500); 
+				res.sendStatus(500);
 			}
 			else if (rows.affectedRows==0)
 			{
 				var sQuery2="INSERT INTO Film(Titolo, AnnoProduzione, Nazionalita, Regista, Genere) VALUES(?,?,?,?,?)";
 				connection.query(sQuery2, data, function(err, rows, fields) {
-					if (err) 
+					if (err)
 					{
 						console.log(err);
-						res.sendStatus(500); 
-					}						
-					else   
-					res.status(200).send({ 
-						status:  200, 
+						res.sendStatus(500);
+					}
+					else
+					res.status(200).send({
+						status:  200,
 						Message: "Ins OK",
-						data: 	 req.query  
+						data: 	 req.query
 					});
 				});
 			}
-			else   
+			else
 			{
-				res.status(200).send({ 
-						status:  200, 
+				res.status(200).send({
+						status:  200,
 						Message: "Mod OK",
-						data:    req.query   
+						data:    req.query
 					});
 			}
-		  }); 
+		  });
 	} else {
-      console.log("Error connecting database ... ");    
+      console.log("Error connecting database ... ");
       res.sendStatus(500);
     }
   });
@@ -349,42 +353,42 @@ app.put('/ModSala', function(req, res){
 		data.push(req.query.Citta);
 		data.push(req.query.CodSala);
 		connection.query(sQuery, data, function(err, rows, fields) {
-			if (err) 
+			if (err)
 			{	console.log(err);
-				res.sendStatus(500); 
+				res.sendStatus(500);
 			}
 			else if (rows.affectedRows==0)
 			{
 				var sQuery2="INSERT INTO Sale(Posti, Nome, Citta) VALUES(?,?,?)";
 				connection.query(sQuery2, data, function(err, rows, fields) {
-					if (err) 
+					if (err)
 					{
 						console.log(err);
-						res.sendStatus(500); 
-					}						
-					else   
-					res.status(200).send({ 
-						status:  200, 
+						res.sendStatus(500);
+					}
+					else
+					res.status(200).send({
+						status:  200,
 						Message: "Ins OK",
-						data: 	 req.query  
+						data: 	 req.query
 					});
 				});
 			}
-			else   
+			else
 			{
-				res.status(200).send({ 
-						status:  200, 
+				res.status(200).send({
+						status:  200,
 						Message: "Mod OK",
-						data:    req.query   
+						data:    req.query
 					});
 			}
-		  }); 
+		  });
 	} else {
-      console.log("Error connecting database ... ");    
+      console.log("Error connecting database ... ");
       res.sendStatus(500);
     }
   });
 });
-    
+
 app.listen(3000);
 console.log("http://localhost:3000/");
