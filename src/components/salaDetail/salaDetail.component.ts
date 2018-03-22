@@ -10,6 +10,8 @@ import { Sala } from '../../types/Sala';
 
 export class SalaDetail implements OnInit{
   sala : Sala = this.params.get('sala');
+  thissala = Object.assign({}, this.sala);
+
   modifica : boolean;
   errmsg: string;
 
@@ -25,6 +27,7 @@ export class SalaDetail implements OnInit{
     }
 
     salva() {
+      this.sala = Object.assign({}, this.thissala);
       this.sd.modInsSala(this.sala)
       .subscribe(res => {
          this.sala  = res.data
@@ -33,6 +36,12 @@ export class SalaDetail implements OnInit{
       );
       this.dismiss();
     }
+
+    annulla() {
+      this.thissala = Object.assign({}, this.sala);
+      this.dismiss();
+    }
+
 
     ngOnInit(): void {
       this.modifica = this.sala.Nome!="";

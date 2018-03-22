@@ -10,6 +10,8 @@ import { Film } from "../../types/Film";
 
 export class FilmDetail implements OnInit {
   film : Film = this.params.get('film');
+  thisfilm = Object.assign({}, this.film);
+
   modifica : boolean;
   errmsg: string;
 
@@ -25,6 +27,8 @@ export class FilmDetail implements OnInit {
   }
 
   salva() {
+    this.film = Object.assign({}, this.thisfilm);
+
     this.sd.modInsFilm(this.film)
     .subscribe(res => {
        this.film  = res.data;
@@ -33,6 +37,12 @@ export class FilmDetail implements OnInit {
     );
     this.dismiss();
   }
+
+  annulla() {
+    this.thisfilm = Object.assign({}, this.film);
+    this.dismiss();
+  }
+
 
   ngOnInit(): void {
     this.modifica = this.film.Titolo!="";
