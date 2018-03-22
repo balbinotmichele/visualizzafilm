@@ -1,6 +1,7 @@
 import { Film } from '../src/types/Film';
 import { Attore } from '../src/types/Attore';
 import { Sala } from '../src/types/Sala';
+import { Recita } from '../src/types/Recita';
 
 import { Injectable } from '@angular/core';
 import { Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
@@ -9,14 +10,16 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-
 @Injectable()
 export class ServiceDbfilmService {
   constructor(private http: HttpClient) { }
+
+  server : string = "http://localhost:3000";
+
 // #region Attore
   getAttori():Observable<Attore[]>{
     return this.http
-      .get("http://localhost:3000/listAttori")
+      .get(this.server + "/listAttori")
       .map(res => res as Attore[]  );
   }
 
@@ -33,7 +36,7 @@ export class ServiceDbfilmService {
         headers,
         params
       };
-    return this.http.put("http://localhost:3000/ModAttore", null, options)
+    return this.http.put(this.server + "/ModAttore", null, options)
       .map((response: Response) => response)
       .catch(this.handleError);
   }
@@ -48,48 +51,18 @@ export class ServiceDbfilmService {
           headers,
           params
         };
-    return this.http.delete("http://localhost:3000/delAttore" ,  options )
+    return this.http.delete(this.server + "/delAttore" ,  options )
       .map((response: Response) =>response )
       .catch(this.handleError);
   }
   // #endregion
 
 // #region Film
-getFilm(limit : number, num: number):Observable<Film[]>{
-  // let headers = new HttpHeaders();
-  // headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-  // const params = new HttpParams()
-  //   .set('limit',   limit.toString())
-  //   .set('offset',   (limit - num).toString());
-  // const options = {
-  //     headers,
-  //     params
-  //   };
-  // return this.http
-  //   .get("http://localhost:3000/listFilm", options)
-  //   .map(res => res as Film[])
-  //   .catch(this.handleError); 
+getFilm(limit? : number, num?: number):Observable<Film[]>{
   return this.http
-    .get("http://localhost:3000/listFilm")
+    .get(this.server + "/listFilm")
     .map(res => res as Film[]  );
 }
-
-getData(tableName,pageIndex,pageSize):Observable<any>{
-  let headers = new HttpHeaders();
-  headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-  const params = new HttpParams()
-    .set('tableName', tableName)
-    .set('pageIndex', pageIndex)
-    .set('pageSize', pageSize);
-    
-  const options = {
-      headers,
-      params
-    };
-  return this.http
-    .get("http://localhost:3000/getData",options)
-    .map(res => res);
-}  
 
 modInsFilm(film:Film): Observable<any> {
   console.log("mod/ins codFilm :"+ film.CodFilm);
@@ -107,7 +80,7 @@ modInsFilm(film:Film): Observable<any> {
       params
     };
   return this.http
-    .put("http://localhost:3000/ModFilm", null, options)
+    .put(this.server + "/ModFilm", null, options)
     .map((response: Response) => response)
     .catch(this.handleError);
 }
@@ -123,7 +96,7 @@ delFilm(CodFilm:number): Observable<any> {
         params
       };
   return this.http
-    .delete("http://localhost:3000/delFilm" ,  options )
+    .delete(this.server + "/delFilm" ,  options )
     .map((response: Response) =>response )
     .catch(this.handleError);
 }
@@ -132,7 +105,7 @@ delFilm(CodFilm:number): Observable<any> {
 // #region Sala
 getSale():Observable<Sala[]>{
   return this.http
-    .get("http://localhost:3000/listSale")
+    .get(this.server + "/listSale")
     .map(res => res as Sala[]);
 }
 
@@ -149,7 +122,7 @@ modInsSala (sala:Sala): Observable<any> {
       headers,
       params
     };
-  return this.http.put("http://localhost:3000/ModSala", null, options)
+  return this.http.put(this.server + "/ModSala", null, options)
     .map((response: Response) => response)
     .catch(this.handleError);
 }
@@ -164,12 +137,62 @@ delSala(CodSala:number): Observable<any> {
         headers,
         params
       };
-  return this.http.delete("http://localhost:3000/delSala" ,  options )
+  return this.http.delete(this.server + "/delSala" ,  options )
     .map((response: Response) =>response )
     .catch(this.handleError);
 }
 // #endregion
-  private extractData(res: Response) {
+// #region Recita
+getRecita(attore : Attore):Observable<string[]>{
+  let headers = new HttpHeaders();
+  headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+  const params = new HttpParams()
+    .set('CodAttore', attore.CodAttore.toString())
+  const options = {
+      headers,
+      params
+    };
+  return this.http.get(this.server + "/GetRecita", options)
+    .map((response: Response) => response)
+    .catch(this.handleError);
+
+}
+
+// modInsAttore(attore:Attore): Observable<any> {
+//   console.log("mod/ins codAttore :"+attore.Nome);
+//   let headers = new HttpHeaders();
+//   headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+//   const params = new HttpParams()
+//     .set('CodAttore', attore.CodAttore.toString())
+//     .set('Nome', attore.Nome)
+//     .set('AnnoNascita', attore.AnnoNascita.toString())
+//     .set('Nazionalita', attore.Nazionalita);
+//   const options = {
+//       headers,
+//       params
+//     };
+//   return this.http.put(this.server + "/ModAttore", null, options)
+//     .map((response: Response) => response)
+//     .catch(this.handleError);
+// }
+
+// delAttore(CodAttore:number): Observable<any> {
+//   console.log("del codAttore :"+CodAttore);
+//     let headers = new HttpHeaders();
+//     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+//     const params = new HttpParams()
+//       .set('CodAttore', CodAttore.toString())      ;
+//     const options = {
+//         headers,
+//         params
+//       };
+//   return this.http.delete(this.server + "/delAttore" ,  options )
+//     .map((response: Response) =>response )
+//     .catch(this.handleError);
+// }
+// #endregion
+
+private extractData(res: Response) {
     let body = res.json();
     return body;
   }
