@@ -1,3 +1,4 @@
+import { NgxPaginationModule } from 'ngx-pagination';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -29,14 +30,15 @@ import { FilmDetail } from "../components/filmDetail/filmDetail.component";
     SaleList,
     AttoreDetail,
     SalaDetail,
-    FilmDetail
+    FilmDetail,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -48,7 +50,7 @@ import { FilmDetail } from "../components/filmDetail/filmDetail.component";
     SaleList,
     AttoreDetail,
     SalaDetail,
-    FilmDetail
+    FilmDetail,
   ],
   providers: [
     StatusBar,
