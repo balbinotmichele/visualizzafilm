@@ -1,8 +1,32 @@
 <ion-list inset>
-  <button ion-button color="secondary" float-right (click)="openAttoreModal({attore: nuovo})">Aggiungi</button>    
-  <ion-item *ngFor="let item of lista"  >
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+            <ion-item col-3 push-8>
+                <ion-label>Numero di record</ion-label>
+                <ion-select [(ngModel)]="num" interface="popover">
+                  <ion-option value="10">10</ion-option>
+                  <ion-option value="15">15</ion-option>
+                  <ion-option value="25">25</ion-option>
+                  <ion-option value="50">50</ion-option>
+                  <ion-option value="100">100</ion-option>
+                </ion-select>
+              </ion-item>
+        </ion-col>
+        <ion-col col-1>
+            <button ion-button color="secondary" block (click)="openAttoreModal({attore: nuovo})">Aggiungi</button>
+          </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+
+<ion-list inset>
+  <ion-item *ngFor="let item of lista | paginate: { itemsPerPage: num, currentPage: p }">
     {{ item.Nome }}
     <ion-icon name="eye" margin-right item-end (click)="openAttoreModal({attore: item})"></ion-icon>
     <ion-icon name="trash" item-end (click)="deleteAttore(item)"></ion-icon>
   </ion-item>
 </ion-list>
+
+<pagination-controls margin-top margin-bottom text-center class="my-pagination" (pageChange)="p = $event"></pagination-controls>
+

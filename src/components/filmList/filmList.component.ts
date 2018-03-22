@@ -3,20 +3,30 @@ import { ServiceDbfilmService } from '../../../services/service-dbfilm.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Film } from '../../types/Film';
 import { FilmDetail } from "./../filmDetail/filmDetail.component";
+import {NgxPaginationModule} from 'ngx-pagination';
+
 
 @Component({
   selector: 'component-filmlist',
-  templateUrl: 'filmList.component.html'
+  templateUrl: 'filmList.component.html',
+  styles: [`
+  .my-pagination /deep/ .ngx-pagination .current {
+    background: #32db64;
+  }
+  .my-pagination {
+    font-size: 17px !important;
+  }
+  `]
 })
 
 export class FilmList {
   data : Film[];
   lista : Film[];
 
-  lim: number = 5;
-  num : number = 5;
+  p: number = 1;
+  num : number = 10;
 
-  scelta : Film; 
+  scelta : Film;
   nuovo : Film  = new Film(0, "", 0, "", "","");
 
   errmsg: string;
@@ -43,8 +53,9 @@ export class FilmList {
   }
 
   getFilm(){
-    this.sd.getFilm(this.lim, this.num)
+    this.sd.getFilm()
     .subscribe(res => {
+      console.log(res);
        this.lista  = res
     },
     errorCode => this.errmsg = errorCode
@@ -56,24 +67,8 @@ export class FilmList {
   }
 
   ngOnInit() {
+    this.num = 10;
     this.getFilm();
-  }
-
-  doInfinite(infiniteScroll) {
-    setTimeout(() => {
-      this.sd.getFilm(this.lim, this.num)
-         .subscribe(
-           res => {
-             this.data = res;
-             for(let i=0; i<this.data.length; i++) {
-               this.lista.push(this.data[i]);
-             }
-           },
-           error =>  this.errmsg = <any>error);
-      this.lim += this.num;
-      console.log('Async operation has ended');
-      infiniteScroll.complete();
-    }, 1000);
   }
 }
 

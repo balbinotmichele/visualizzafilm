@@ -3,10 +3,20 @@ import { ServiceDbfilmService } from '../../../services/service-dbfilm.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Sala } from '../../types/Sala';
 import { SalaDetail } from '../salaDetail/salaDetail.component';
+import {NgxPaginationModule} from 'ngx-pagination';
+
 
 @Component({
   selector: 'component-salelist',
-  templateUrl: 'saleList.component.html'
+  templateUrl: 'saleList.component.html',
+  styles: [`
+  .my-pagination /deep/ .ngx-pagination .current {
+    background: #32db64;
+  }
+  .my-pagination {
+    font-size: 17px !important;
+  }
+  `]
 })
 
 export class SaleList {
@@ -14,6 +24,9 @@ export class SaleList {
 
   scelta : Sala;
   nuovo : Sala = new Sala(0, 0, "", "");
+
+  p: number = 1;
+  num : number = 10;
 
   errmsg : string;
 
@@ -29,12 +42,13 @@ export class SaleList {
   }
 
   ngOnInit() {
-    this.getSale(); 
+    this.num = 10;
+    this.getSale();
   }
 
   openSalaModal(sala: Sala) {
     let modal = this.modalCtrl.create(SalaDetail, sala);
-    modal.onDidDismiss(() => {this.getSale(); this.nuovo = new Sala(0, 0, "", "")});    
+    modal.onDidDismiss(() => {this.getSale(); this.nuovo = new Sala(0, 0, "", "")});
     modal.present();
   }
 
