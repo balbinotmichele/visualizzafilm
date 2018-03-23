@@ -31,7 +31,7 @@ export class AttoreDetail implements OnInit {
   getRecitaIn() {
     this.sd.getRecita(this.thisattore)
     .subscribe(res => {
-       this.recitaIn  = res.map(x => x.Titolo)
+       this.recitaIn  = res.map(x => x["Titolo"])
     },
     errorCode => this.errmsg = errorCode
     );
