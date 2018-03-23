@@ -63,14 +63,29 @@ app.get("/listFilm", function(req, res) {
 	connection= mysql.createConnection(sConnection)	;
 	connection.connect(function(err){
 		if (!err){
-			var sQuery="SELECT * FROM FILM;";
-			connection.query(sQuery,function(err,rows,fileds){
-		      if (err)
-				res.sendStatus(500);
-				else
-				res.setHeader('Access-Control-Allow-Origin','*');
-				res.json(rows);
-			})
+			if(req.query.CodAttore != undefined) {
+				var sQuery="SELECT * FROM Film LEFT JOIN Recita ON Film.CodFilm = Recita.CodFilm WHERE CodAttore != ?;";
+				var data=[];
+				data.push(req.query.CodAttore);
+				connection.query(sQuery,data,function(err,rows,fileds){
+				  if (err)
+					res.sendStatus(500); //Internal Server Error
+					else
+					//res.setHeader('Access-Control-Allow-Origin','*');
+					res.json(rows); //resituisce tutti i records in formato json
+					console.log(rows);
+				})
+			}
+			else {
+				var sQuery="SELECT * FROM FILM;";
+				connection.query(sQuery,function(err,rows,fileds){
+				  if (err)
+					res.sendStatus(500);
+					else
+					res.setHeader('Access-Control-Allow-Origin','*');
+					res.json(rows);
+				})
+			}
 		}
 	})
 });
@@ -107,6 +122,27 @@ app.get('/GetRecita', function(req, res){
       var data=[];
       data.push(req.query.CodAttore);
 	    console.log(req.query.CodAttore);
+      console.log(data[0]);
+			connection.query(sQuery,data,function(err,rows,fileds){
+        if (err)
+      res.sendStatus(500); //Internal Server Error
+      else
+      //res.setHeader('Access-Control-Allow-Origin','*');
+      res.json(rows); //resituisce tutti i records in formato json
+      console.log(rows);
+    })
+  }
+})
+});
+
+app.put('/updateRecita', function(req, res){
+	connection= mysql.createConnection(sConnection)	;
+	connection.connect(function(err){
+		if (!err){
+      var sQuery="INSERT INTO Recita(CodAttore, CodFilm) VALUES ?;";
+      var data=[];
+      data.push(req.query.rec);
+	    console.log(req.query.rec);
       console.log(data[0]);
 			connection.query(sQuery,data,function(err,rows,fileds){
         if (err)

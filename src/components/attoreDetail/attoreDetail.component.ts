@@ -18,6 +18,7 @@ export class AttoreDetail implements OnInit {
   errmsg: string;
 
   recitaIn : string[];
+  recArray : Recita[] = [];
   listFilm : Film[];
   modificaFilm : boolean;
 
@@ -47,6 +48,7 @@ export class AttoreDetail implements OnInit {
   dismiss() {
     this.viewCtrl.dismiss();
     this.modifica = true;
+    this.modificaFilm = true;
   }
 
   salva() {
@@ -77,20 +79,29 @@ export class AttoreDetail implements OnInit {
 
     alert.addButton('Annulla');
     alert.addButton({
-      text: 'Okay',
+      text: 'Salva',
       handler: data => {
         console.log('Checkbox data:', data);
+        for(let item in data)
+          this.recArray.push(new Recita(this.thisattore.CodAttore, parseInt(data[item])));
+        this.updateFilm();
       }
     });
     alert.present();
   }
 
-  salvaFilm() {
+  annullaFilm() {
 
   }
 
-  annullaFilm() {
-
+  updateFilm() {
+    this.sd.updateRecita(this.recArray)
+    .subscribe(res => {
+       this.recArray  = res
+    },
+    errorCode => this.errmsg = errorCode
+    );
+    this.dismiss();
   }
 
   annulla() {

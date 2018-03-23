@@ -58,7 +58,17 @@ export class ServiceDbfilmService {
   // #endregion
 
 // #region Film
-getFilm(limit? : number, num?: number):Observable<Film[]>{
+getFilm(CodAttore? : number):Observable<Film[]>{
+  if(CodAttore != undefined) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+    const params = new HttpParams()
+      .set('CodAttore', CodAttore.toString())
+    const options = {
+        headers,
+        params
+      };
+  }
   return this.http
     .get(this.server + "/listFilm")
     .map(res => res as Film[]  );
@@ -154,8 +164,23 @@ getRecita(attore : Attore):Observable<string[]>{
     };
   return this.http.get(this.server + "/GetRecita", options)
     .map((response: Response) => response)
-    .catch(this.handleError);
+    .catch(this.handleError); 
+}
 
+updateRecita(recita : Recita[]):Observable<any>{
+  let RecString = recita.map(x => "(" + x.toString() + ")", );
+  console.log(RecString);
+  let headers = new HttpHeaders();
+  headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+  const params = new HttpParams()
+    .set('rec', RecString.toString());
+  const options = {
+      headers,
+      params
+    };
+  return this.http.put(this.server + "/updateRecita", null, options)
+    .map((response: Response) => response)
+    .catch(this.handleError);
 }
 
 // modInsAttore(attore:Attore): Observable<any> {
