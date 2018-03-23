@@ -8,4 +8,8 @@ export class Recita{
     this.CodAttore = codAttore;
     this.CodFlim = codFilm;
   }
+  
+  toString() : string {
+    return this.CodAttore.toString() + "," + this.CodFlim.toString();
+  }
 }
